@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject startPos;
-    [SerializeField] GameObject platformModel;
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
     [SerializeField] FloatingJoystick joystick;
@@ -13,12 +12,10 @@ public class PlayerController : MonoBehaviour
     float verticalInput;
     Vector3 movementVec;
     Animator playerAnimator;
-    Rigidbody rb;
 
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
     }
 
@@ -28,16 +25,11 @@ public class PlayerController : MonoBehaviour
         GetInput();
         Move();
         Rotation();
+        AlignToSurface();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             transform.position = startPos.transform.position;
-        }
-
-        if (transform.parent == null)
-        {
-            Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + platformModel.transform.rotation.eulerAngles.z * rotationSpeed);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
     }
 
@@ -58,50 +50,41 @@ public class PlayerController : MonoBehaviour
     {
         if (horizontalInput != 0 && verticalInput != 0)
         {
-            if (onPlatform)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(movementVec);
-                rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-                transform.rotation = Quaternion.Euler(0, rb.rotation.y, 0);
-            }
-            else
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(movementVec);
-                rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-            }
-
-            // Quaternion targetRotation = Quaternion.LookRotation(movementVec);
-            // rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        }
-    }
-    bool onPlatform = false;
-    GameObject platform;
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Platform"))
-        {
-            platform = other.gameObject;
-            onPlatform = true;
-        }
-        else
-        {
-            onPlatform = false;
+            Quaternion targetRotation = Quaternion.LookRotation(movementVec);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
     }
 
-    private void OnCollisionStay(Collision other)
+    void AlignToSurface()
     {
-        if (other.gameObject.CompareTag("Platform"))
+        
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f)) 
         {
-            transform.RotateAround(other.transform.position, Vector3.forward, 0.5f);
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            Quaternion currentRotation = transform.rotation;
+            currentRotation.x = 0f;
+            currentRotation.z = 0f;
+            targetRotation.x = 0f;
+            targetRotation.z = 0f;
+
+            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
     }
 
-    private void OnCollisionExit(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Platform"))
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.parent = other.gameObject.transform;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Platform"))
+        {
+            transform.parent = null; 
         }
     }
 }
