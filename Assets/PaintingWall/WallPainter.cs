@@ -35,7 +35,6 @@ public class WallPainter : MonoBehaviour
                         Vector2 pixelUV = hit.textureCoord;
                         PaintTexture(pixelUV, brushSize, paintColor);
                         ApplyTexture();
-                        print(pixelUV);
                     }
                 }
             }

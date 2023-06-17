@@ -5,24 +5,42 @@ using Pathfinding;
 
 public class OpponentCharacterControllerAstar : MonoBehaviour
 {
-    [SerializeField] Transform endDestination;
+    [SerializeField] List<Transform> endDestinationList;
     Vector3 rotatingPlatformDestination;
-    private AIPath aiPath;
-    
+    AIPath aiPath;
+    Rigidbody rb;
     bool onRotatingPlatform = false;
-
+    Animator playerAnimator;
+    GameManager gameManager;
     private void Start()
     {
+        gameManager = GameManager.Instance;
+        rb = GetComponent<Rigidbody>();
+        playerAnimator = GetComponent<Animator>();
         aiPath = GetComponent<AIPath>();
-        aiPath.destination = endDestination.position;
+        aiPath.destination = endDestinationList[Random.Range(0, endDestinationList.Count)].position;
+        aiPath.canMove = false;
+        RaceManager.Instance?.AddRacer(this.gameObject);
     }
 
     private void Update()
     {
-        Move();
+        if (gameManager.State == GameState.Racing)
+        {
+            if (aiPath.canMove == false)
+            {
+                aiPath.canMove = true;
+            }
+            Move();
+        }
+        else
+        {
+            aiPath.canMove = false;
+        }
     }
 
-    void Move(){
+    void Move()
+    {
 
         if (onRotatingPlatform)
         {
@@ -30,21 +48,21 @@ public class OpponentCharacterControllerAstar : MonoBehaviour
             Vector3 direction = (rotatingPlatformDestination - transform.position).normalized;
             AlignToSurface();
             transform.Translate(direction * 7 * Time.deltaTime);
-
+            playerAnimator.SetFloat("playerSpeed", rb.velocity.magnitude);
         }
         else
         {
             aiPath.enabled = true;
             transform.parent = null;
+            playerAnimator.SetFloat("playerSpeed", aiPath.velocity.magnitude);
         }
-        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Platform"))
         {
-            rotatingPlatformDestination=other.GetComponent<RotatingPlatformController>().rotatinPlatformDestination;
+            rotatingPlatformDestination = other.GetComponent<RotatingPlatformController>().rotatingPlatformDestination;
             transform.parent = other.gameObject.transform;
             onRotatingPlatform = true;
             aiPath.enabled = false;
@@ -55,7 +73,7 @@ public class OpponentCharacterControllerAstar : MonoBehaviour
     {
         if (other.CompareTag("Platform"))
         {
-            transform.parent = null; 
+            transform.parent = null;
             onRotatingPlatform = false;
             aiPath.enabled = true;
         }
@@ -64,7 +82,7 @@ public class OpponentCharacterControllerAstar : MonoBehaviour
     void AlignToSurface()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f)) 
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f))
         {
             Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
 

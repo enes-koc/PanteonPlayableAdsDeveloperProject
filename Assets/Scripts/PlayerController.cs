@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] GameObject startPos;
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
     [SerializeField] FloatingJoystick joystick;
@@ -12,24 +12,35 @@ public class PlayerController : MonoBehaviour
     float verticalInput;
     Vector3 movementVec;
     Animator playerAnimator;
+    GameManager gameManager;
 
-
+    public event Action OnFinishRace;
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
+        gameManager = GameManager.Instance;
+        RaceManager.Instance?.AddRacer(this.gameObject);
     }
 
     void Update()
     {
-
-        GetInput();
-        Move();
-        Rotation();
-        AlignToSurface();
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (gameManager.State == GameState.Racing)
         {
-            transform.position = startPos.transform.position;
+            GetInput();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (gameManager.State == GameState.Racing)
+        {
+            Move();
+            Rotation();
+            AlignToSurface();
+        }
+        else
+        {
+            playerAnimator.SetFloat("playerSpeed", 0);
         }
     }
 
@@ -57,9 +68,9 @@ public class PlayerController : MonoBehaviour
 
     void AlignToSurface()
     {
-        
+
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f)) 
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 2f))
         {
             Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             Quaternion currentRotation = transform.rotation;
@@ -78,13 +89,17 @@ public class PlayerController : MonoBehaviour
         {
             transform.parent = other.gameObject.transform;
         }
+        else if (other.gameObject.CompareTag("FinishLine"))
+        {
+            OnFinishRace?.Invoke();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Platform"))
         {
-            transform.parent = null; 
+            transform.parent = null;
         }
     }
 }

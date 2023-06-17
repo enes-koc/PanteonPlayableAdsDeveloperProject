@@ -8,7 +8,7 @@ public class RotatingPlatformController : MonoBehaviour
 
     [SerializeField] float rotateTime;
     [SerializeField] GameObject platformModel;
-    public Vector3 rotatinPlatformDestination;
+    public Vector3 rotatingPlatformDestination;
     void Start()
     {
         rotatingPlatform();
@@ -21,7 +21,7 @@ public class RotatingPlatformController : MonoBehaviour
 
     private void OnDrawGizmos() {
         Gizmos.color=Color.red;
-        Gizmos.DrawWireSphere(rotatinPlatformDestination,2f);
+        Gizmos.DrawWireSphere(rotatingPlatformDestination,0.6f);
     }
 
 }

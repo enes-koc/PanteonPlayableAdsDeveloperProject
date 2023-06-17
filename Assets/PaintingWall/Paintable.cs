@@ -3,14 +3,14 @@ using UnityEngine;
 public class Paintable : MonoBehaviour
 {
     const int TEXTURE_SIZE = 1024;
-
     public float extendsIslandOffset = 1;
     RenderTexture extendIslandsRenderTexture;
     RenderTexture uvIslandsRenderTexture;
     RenderTexture maskRenderTexture;
     RenderTexture supportTexture;
-
     Renderer rend;
+
+    public float paintPercentage = 0;
 
     int maskTextureID = Shader.PropertyToID("_MaskTexture");
 
@@ -20,23 +20,10 @@ public class Paintable : MonoBehaviour
     public RenderTexture getSupport() => supportTexture;
     public Renderer getRenderer() => rend;
 
-    private ComputeShader computeShader;
-
-    void Awake()
-    {
-        string computeShaderPath = "Assets/TestComputeShader.compute";
-        computeShader = UnityEditor.AssetDatabase.LoadAssetAtPath<ComputeShader>(computeShaderPath);
-        Debug.Log("Compute Shader: " + computeShader);
-    }
-
     void Start()
     {
         maskRenderTexture = new RenderTexture(TEXTURE_SIZE, TEXTURE_SIZE, 0);
         maskRenderTexture.filterMode = FilterMode.Bilinear;
-
-        // maskRenderTexture = new RenderTexture(TEXTURE_SIZE, TEXTURE_SIZE, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
-        // maskRenderTexture.filterMode = FilterMode.Bilinear;
-        // maskRenderTexture.enableRandomWrite = true; // UAV kullanım bayrağını etkinleştirme
 
         extendIslandsRenderTexture = new RenderTexture(TEXTURE_SIZE, TEXTURE_SIZE, 0);
         extendIslandsRenderTexture.filterMode = FilterMode.Bilinear;
@@ -51,6 +38,8 @@ public class Paintable : MonoBehaviour
         rend.material.SetTexture(maskTextureID, extendIslandsRenderTexture);
 
         PaintManager.Instance.initTextures(this);
+
+        StartPaintedPercentageCalculation();
     }
 
     void OnDisable()
@@ -62,7 +51,7 @@ public class Paintable : MonoBehaviour
     }
 
 
-    public float GetPaintedPercentage()
+    public void GetPaintedPercentage()
     {
         RenderTexture maskTexture = getMask();
 
@@ -86,6 +75,17 @@ public class Paintable : MonoBehaviour
 
         Destroy(tempTexture);
 
-        return paintedPercentage;
+        paintPercentage = paintedPercentage;
     }
+
+    public void StartPaintedPercentageCalculation()
+    {
+        InvokeRepeating("GetPaintedPercentage", 0, 0.5f);
+    }
+
+    public void StopPaintedPercentageCalculation()
+    {
+        CancelInvoke("GetPaintedPercentage");
+    }
+
 }

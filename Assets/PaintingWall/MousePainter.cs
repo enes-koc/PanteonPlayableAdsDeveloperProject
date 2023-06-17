@@ -20,7 +20,6 @@ public class MousePainter : MonoBehaviour
 
     void Update()
     {
-
         if (isPaintable)
         {
             bool click;
@@ -45,6 +44,22 @@ public class MousePainter : MonoBehaviour
             }
 
         }
+    }
+
+    public void setColorBlue(){
+        paintColor=Color.blue;
+    }
+
+    public void setColorYellow(){
+        paintColor=Color.yellow;
+    }
+
+    public void setColorRed(){
+        paintColor=Color.red;
+    }
+
+    public void setBrushSize(float size){
+        radius=size;
     }
 
 }

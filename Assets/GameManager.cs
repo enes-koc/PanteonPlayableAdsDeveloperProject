@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,17 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GameState State;
 
-    public enum GameState
-    {
-        Menu,
-        Racing,
-        Painting,
-        GameOver
-    }
-
-    public GameState CurrentGameState { get; private set; }
-
+    public static event Action<GameState> OnGameStateChanged;
     void Awake()
     {
         if (Instance == null)
@@ -26,37 +19,21 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
-    {
-        SetGameState(GameState.Menu);
+    private void Start() {
+        UpdateGameState(GameState.Start);
     }
 
-    public void StartRace()
+    public void UpdateGameState(GameState newState)
     {
-        SetGameState(GameState.Racing);
-    }
+        State = newState;
 
-    public void StartPainting()
-    {
-        SetGameState(GameState.Painting);
-    }
-
-    public void EndGame()
-    {
-        SetGameState(GameState.GameOver);
-    }
-
-    void SetGameState(GameState state)
-    {
-        CurrentGameState = state;
-
-        switch (CurrentGameState)
+        switch (State)
         {
-            case GameState.Menu:
-                // Menü işlemleri
+            case GameState.Start:
+                HandleStart();
                 break;
             case GameState.Racing:
-                // Yarış işlemleri
+                HandleRacing();
                 break;
             case GameState.Painting:
                 // Boyama işlemleri
@@ -65,5 +42,25 @@ public class GameManager : MonoBehaviour
                 // Oyun bitiş işlemleri
                 break;
         }
+        print(State);
+        OnGameStateChanged?.Invoke(newState);
     }
+
+    private void HandleRacing()
+    {
+       
+    }
+
+    private void HandleStart()
+    {
+       
+    }
+}
+
+public enum GameState
+{
+    Start,
+    Racing,
+    Painting,
+    GameOver
 }
