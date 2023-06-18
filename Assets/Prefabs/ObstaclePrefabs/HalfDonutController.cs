@@ -8,7 +8,7 @@ public class HalfDonutController : MonoBehaviour
     [SerializeField] GameObject movingStick;
     [SerializeField] float delayTime;
     [SerializeField] bool randomTime;
-    
+
     void Start()
     {
         halfDonut();
@@ -23,11 +23,23 @@ public class HalfDonutController : MonoBehaviour
         }
         else
         {
-            time=delayTime;
+            time = delayTime;
         }
 
         var halfDonutSequance = DOTween.Sequence();
         halfDonutSequance.SetDelay(time).Append(movingStick.transform.DOLocalMove(movingStick.transform.localPosition + new Vector3(-0.23f, 0, 0), 1));
         halfDonutSequance.SetLoops(-1, LoopType.Yoyo);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().GoSpawnPoint();
+        }
+        else if (collision.gameObject.CompareTag("Opponent"))
+        {
+            collision.gameObject.GetComponent<OpponentCharacterControllerAstar>().GoSpawnPoint();
+        }
     }
 }

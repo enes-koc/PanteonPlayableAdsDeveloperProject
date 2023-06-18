@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,30 +31,25 @@ public class GameManager : MonoBehaviour
         switch (State)
         {
             case GameState.Start:
-                HandleStart();
+
                 break;
             case GameState.Racing:
-                HandleRacing();
+
                 break;
             case GameState.Painting:
-                // Boyama işlemleri
-                break;
-            case GameState.GameOver:
-                // Oyun bitiş işlemleri
+
                 break;
         }
         print(State);
         OnGameStateChanged?.Invoke(newState);
     }
 
-    private void HandleRacing()
-    {
-       
+    public void RestartGame(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private void HandleStart()
-    {
-       
+    public void ExitGame(){
+        Application.Quit();
     }
 }
 
@@ -61,6 +57,5 @@ public enum GameState
 {
     Start,
     Racing,
-    Painting,
-    GameOver
+    Painting
 }

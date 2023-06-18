@@ -9,8 +9,8 @@ public class Paintable : MonoBehaviour
     RenderTexture maskRenderTexture;
     RenderTexture supportTexture;
     Renderer rend;
-
-    public float paintPercentage = 0;
+    GameManager gameManager;
+    MenuManager menuManager;
 
     int maskTextureID = Shader.PropertyToID("_MaskTexture");
 
@@ -39,7 +39,8 @@ public class Paintable : MonoBehaviour
 
         PaintManager.Instance.initTextures(this);
 
-        StartPaintedPercentageCalculation();
+        gameManager = GameManager.Instance;
+        menuManager = MenuManager.Instance;
     }
 
     void OnDisable()
@@ -48,6 +49,14 @@ public class Paintable : MonoBehaviour
         uvIslandsRenderTexture.Release();
         extendIslandsRenderTexture.Release();
         supportTexture.Release();
+    }
+
+    private void FixedUpdate()
+    {
+        if (gameManager.State == GameState.Painting)
+        {
+            GetPaintedPercentage();
+        }
     }
 
 
@@ -75,17 +84,7 @@ public class Paintable : MonoBehaviour
 
         Destroy(tempTexture);
 
-        paintPercentage = paintedPercentage;
-    }
-
-    public void StartPaintedPercentageCalculation()
-    {
-        InvokeRepeating("GetPaintedPercentage", 0, 0.5f);
-    }
-
-    public void StopPaintedPercentageCalculation()
-    {
-        CancelInvoke("GetPaintedPercentage");
+        menuManager?.SetPercentage(paintedPercentage);
     }
 
 }

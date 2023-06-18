@@ -20,12 +20,19 @@ public class ShiningController : MonoBehaviour
         transform.DORotate(new Vector3(0, 360, 0), rotateTime, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             var mainModule = particleSystem.main;
             mainModule.startColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+            other.GetComponent<PlayerController>().GoSpawnPoint();
+        }
+        else if (other.CompareTag("Opponent"))
+        {
+            var mainModule = particleSystem.main;
+            mainModule.startColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+            other.GetComponent<OpponentCharacterControllerAstar>().GoSpawnPoint();
         }
     }
 }

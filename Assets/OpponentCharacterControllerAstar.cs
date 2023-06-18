@@ -5,22 +5,24 @@ using Pathfinding;
 
 public class OpponentCharacterControllerAstar : MonoBehaviour
 {
-    [SerializeField] List<Transform> endDestinationList;
     Vector3 rotatingPlatformDestination;
     AIPath aiPath;
     Rigidbody rb;
     bool onRotatingPlatform = false;
     Animator playerAnimator;
     GameManager gameManager;
+
+    public Transform raceStartPosition { get; set; }
+    public Transform raceEndPosition { get; set; }
     private void Start()
     {
         gameManager = GameManager.Instance;
         rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
         aiPath = GetComponent<AIPath>();
-        aiPath.destination = endDestinationList[Random.Range(0, endDestinationList.Count)].position;
-        aiPath.canMove = false;
         RaceManager.Instance?.AddRacer(this.gameObject);
+        aiPath.destination = raceEndPosition.position;
+        aiPath.canMove = false;
     }
 
     private void Update()
@@ -56,6 +58,11 @@ public class OpponentCharacterControllerAstar : MonoBehaviour
             transform.parent = null;
             playerAnimator.SetFloat("playerSpeed", aiPath.velocity.magnitude);
         }
+    }
+
+    public void GoSpawnPoint()
+    {
+        transform.position = raceStartPosition.position;
     }
 
     private void OnTriggerEnter(Collider other)

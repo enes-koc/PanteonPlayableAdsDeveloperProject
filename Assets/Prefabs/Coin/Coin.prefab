@@ -46,9 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dca23a609ccd3a4eb11a01be8a9fc42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinAmount: 1
+  popoutCoinCount: 5
   rotateTime: 10
-  coinObj: {fileID: 0}
-  tempcoinObjList: []
+  coinArrivalTime: 1
+  targetCoinImage: {fileID: 0}
+  coinImage: {fileID: 3385028410208041686, guid: c4d1ecf9ca34906418de608d8d9520b0,
+    type: 3}
+  canvas: {fileID: 0}
 --- !u!54 &6565574650478706168
 Rigidbody:
   m_ObjectHideFlags: 0

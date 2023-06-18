@@ -13,12 +13,15 @@ public class PlayerController : MonoBehaviour
     Vector3 movementVec;
     Animator playerAnimator;
     GameManager gameManager;
-
+    MenuManager menuManager;
+    int failAttempt=0;
+    public Transform raceStartPosition {get;set;}
     public event Action OnFinishRace;
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
         gameManager = GameManager.Instance;
+        menuManager=MenuManager.Instance;
         RaceManager.Instance?.AddRacer(this.gameObject);
     }
 
@@ -81,6 +84,12 @@ public class PlayerController : MonoBehaviour
 
             transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
+    }
+
+    public void GoSpawnPoint(){
+        transform.position=raceStartPosition.position;
+        failAttempt++;
+        menuManager.SetFailAttempt(failAttempt);
     }
 
     private void OnTriggerEnter(Collider other)

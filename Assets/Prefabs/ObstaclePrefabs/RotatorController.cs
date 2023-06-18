@@ -22,19 +22,19 @@ public class RotatorController : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            Debug.Log("Player Base");
+            collider.GetComponent<PlayerController>().GoSpawnPoint();
         }
-
-        if (collider.CompareTag("Opponent"))
+        else if (collider.CompareTag("Opponent"))
         {
-            Debug.Log("Opponent Base");
+            collider.GetComponent<OpponentCharacterControllerAstar>().GoSpawnPoint();
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Opponent"))
         {
+            print(collision.gameObject.name);
             ContactPoint firstContact = collision.contacts[0];
             Vector3 contactPoint = firstContact.point;
             var rb = collision.gameObject.GetComponent<Rigidbody>();
@@ -42,5 +42,5 @@ public class RotatorController : MonoBehaviour
             rb.AddForce((collision.transform.position - contactPoint) * bounceForce, ForceMode.Impulse);
         }
     }
-    
+
 }
