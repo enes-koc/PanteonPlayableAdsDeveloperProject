@@ -8,7 +8,6 @@ public class GraphPenaltyTest : MonoBehaviour
     Pathfinding.GraphNode prevNode;
     List<Pathfinding.GraphNode> PointNodeList = new List<Pathfinding.GraphNode>();
 
-
     private void Start()
     {
         prevNode = AstarPath.active.GetNearest(transform.position).node;
@@ -35,5 +34,13 @@ public class GraphPenaltyTest : MonoBehaviour
         }
 
         prevNode = currentNode;
+    }
+
+    private void OnDisable()
+    {
+        foreach (var node in PointNodeList)
+        {
+            node.Penalty = 0;
+        }
     }
 }

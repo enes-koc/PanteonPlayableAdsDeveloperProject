@@ -37,7 +37,7 @@ public class OpponentCharacterControllerAstar : MonoBehaviour
         }
         else
         {
-            aiPath.canMove = false;
+            aiPath.enabled=false;
         }
     }
 
