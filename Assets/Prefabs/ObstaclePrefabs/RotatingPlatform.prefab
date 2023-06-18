@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3542122258937497302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -12.84, z: 36.02}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 7.9999995, y: 7.9999995, z: 7.9999995}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateTime: 90
-  rotationPower: 6
   platformModel: {fileID: 3542122258937497302}
-  rb: {fileID: 0}
+  rotationDirection: 0
+  rotatingPlatformDestination: {x: 0, y: 0, z: 0}
 --- !u!136 &3542122258937497298
 CapsuleCollider:
   m_ObjectHideFlags: 0
