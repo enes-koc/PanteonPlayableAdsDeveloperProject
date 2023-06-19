@@ -12,8 +12,6 @@ public class CoinController : MonoBehaviour
     [SerializeField] GameObject targetCoinImage;
     [SerializeField] GameObject coinImage;
     [SerializeField] RectTransform canvas;
-
-
     void Start()
     {
         coinRotate();
@@ -37,15 +35,22 @@ public class CoinController : MonoBehaviour
 
     void coinAnimation()
     {
+        float coinSize = Screen.height/30;
         GameObject tempCoin;
         for (int i = 0; i < popoutCoinCount; i++)
         {
             tempCoin = Instantiate(coinImage, transform.position, Quaternion.Euler(0, 0, 0));
-            tempCoin.transform.parent = canvas.transform;
+            tempCoin.transform.SetParent(canvas.transform);
+            tempCoin.GetComponent<RectTransform>().sizeDelta = new Vector2(coinSize, coinSize);
             tempCoin.GetComponent<RectTransform>().anchoredPosition = transform.position + new Vector3(Random.Range(90f, -90f), Random.Range(50f, -140f), Random.Range(90f, -90f));
             tempCoin.transform.DOMove(targetCoinImage.transform.position, coinArrivalTime).SetEase(Ease.InFlash);
             Destroy(tempCoin, coinArrivalTime);
         }
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(transform);
     }
 
     // if (collider.CompareTag("Player"))

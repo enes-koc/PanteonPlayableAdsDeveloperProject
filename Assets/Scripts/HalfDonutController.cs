@@ -42,4 +42,9 @@ public class HalfDonutController : MonoBehaviour
             collision.gameObject.GetComponent<OpponentCharacterControllerAstar>().GoSpawnPoint();
         }
     }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(transform);
+    }
 }

@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
-
         Screen.SetResolution(1080, 1920, true);
     }
 
@@ -29,19 +27,6 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
         State = newState;
-
-        switch (State)
-        {
-            case GameState.Start:
-
-                break;
-            case GameState.Racing:
-
-                break;
-            case GameState.Painting:
-
-                break;
-        }
         OnGameStateChanged?.Invoke(newState);
     }
 

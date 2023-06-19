@@ -44,7 +44,6 @@ public class RotatorController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Opponent"))
         {
-            print(collision.gameObject.name);
             ContactPoint firstContact = collision.contacts[0];
             Vector3 contactPoint = firstContact.point;
             var rb = collision.gameObject.GetComponent<Rigidbody>();
@@ -57,6 +56,11 @@ public class RotatorController : MonoBehaviour
     {
         Clockwise = 1,
         CounterClockwise = -1
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(transform);
     }
 
 }

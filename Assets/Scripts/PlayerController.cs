@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
             Rotation();
             AlignToSurface();
         }
-        else
+        else if (gameManager.State != GameState.Painting)
         {
             playerAnimator.SetFloat("playerSpeed", 0);
         }
@@ -92,10 +92,18 @@ public class PlayerController : MonoBehaviour
 
     public void GoSpawnPoint()
     {
-        rb.velocity=Vector3.zero;
+        rb.velocity = Vector3.zero;
         transform.position = raceStartPosition.position;
         failAttempt++;
         menuManager.SetFailAttempt(failAttempt);
+    }
+
+    IEnumerator MoveToPaintingPosition(Vector3 paintingPosition)
+    {
+        float moveTime = 3;
+        transform.DOMove(paintingPosition, moveTime);
+        yield return new WaitForSeconds(moveTime);
+        playerAnimator.SetFloat("playerSpeed", 0);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -106,8 +114,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("FinishLine"))
         {
-            transform.DOMove(other.gameObject.transform.Find("PlayerFinishPosition").transform.position,4);
             OnFinishRace?.Invoke();
+            StartCoroutine(MoveToPaintingPosition(other.gameObject.transform.Find("PlayerFinishPosition").transform.position));
         }
     }
 

@@ -17,8 +17,6 @@ public class CameraManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
-
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
     

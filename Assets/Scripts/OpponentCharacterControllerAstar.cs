@@ -106,7 +106,7 @@ public class OpponentCharacterControllerAstar : MonoBehaviour
             targetRotation.x = 0f;
             targetRotation.z = 0f;
 
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 50);
+            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 100);
         }
     }
 

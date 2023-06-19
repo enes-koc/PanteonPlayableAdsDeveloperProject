@@ -33,6 +33,11 @@ public class RotatingPlatformController : MonoBehaviour
         Right = -1
     }
 
+    private void OnDestroy()
+    {
+        DOTween.Kill(transform);
+    }
+
 }
 
 

@@ -76,4 +76,8 @@ public class ShiningController : MonoBehaviour
         Left = -1,
         Right = 1
     }
+    private void OnDestroy()
+    {
+        DOTween.Kill(transform);
+    }
 }

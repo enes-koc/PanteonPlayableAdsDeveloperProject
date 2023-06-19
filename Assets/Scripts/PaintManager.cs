@@ -32,9 +32,6 @@ public class PaintManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
-
-
         paintMaterial = new Material(texturePaint);
         extendMaterial = new Material(extendIslands);
         command = new CommandBuffer();

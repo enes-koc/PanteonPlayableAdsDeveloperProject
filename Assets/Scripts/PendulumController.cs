@@ -45,4 +45,9 @@ public class PendulumController : MonoBehaviour
         Left = 1,
         Right = -1
     }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(transform);
+    }
 }

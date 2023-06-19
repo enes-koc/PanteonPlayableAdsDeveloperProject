@@ -20,8 +20,6 @@ public class MenuManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
-
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
 
@@ -60,15 +58,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetSound(bool value)
     {
-
-        if (value)
-        {
-            mixer.SetFloat("MasterVolume", -80);
-        }
-        else
-        {
-            mixer.SetFloat("MasterVolume", 0);
-        }
+        mixer.SetFloat("MasterVolume", value ? -80 : 0);
     }
 
     private void OnDestroy()

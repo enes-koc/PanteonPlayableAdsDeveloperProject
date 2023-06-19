@@ -21,8 +21,6 @@ public class RaceManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
-
         racers = new List<GameObject>();
         higherRanks = new List<GameObject>();
 
