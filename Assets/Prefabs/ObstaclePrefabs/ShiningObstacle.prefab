@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 630288792}
   - component: {fileID: 630288795}
   - component: {fileID: 630288794}
-  - component: {fileID: 630288793}
+  - component: {fileID: 5741968196379347342}
   m_Layer: 0
   m_Name: Left1
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &630288793
+--- !u!114 &5741968196379347342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 7179476345065975878}
   - component: {fileID: 3622927046456761920}
   - component: {fileID: 6061153071855106142}
-  - component: {fileID: 737429340634081485}
+  - component: {fileID: 327772178768994034}
   m_Layer: 0
   m_Name: Left2
   m_TagString: Untagged
@@ -180,7 +180,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &737429340634081485
+--- !u!114 &327772178768994034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 895156199601713451}
   m_Layer: 7
   m_Name: ShiningObstacle
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -265,6 +265,7 @@ MonoBehaviour:
   xAxisMoveAmount: 7
   rotateTime: 2
   obstacleModel: {fileID: 48785347104429974}
+  rotationDirection: -1
   leftPenaltyList:
   - {fileID: 630288791}
   - {fileID: 402618886316125167}
@@ -5063,7 +5064,7 @@ GameObject:
   - component: {fileID: 4400857254968729636}
   - component: {fileID: 6212565132360355320}
   - component: {fileID: 2921650665597878648}
-  - component: {fileID: 7916388727791306516}
+  - component: {fileID: 926902241606616373}
   m_Layer: 0
   m_Name: Right3
   m_TagString: Untagged
@@ -5136,7 +5137,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7916388727791306516
+--- !u!114 &926902241606616373
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5159,7 +5160,7 @@ GameObject:
   - component: {fileID: 2206938076436512643}
   - component: {fileID: 6088683051244266707}
   - component: {fileID: 5265292605531396412}
-  - component: {fileID: 8189438252459062760}
+  - component: {fileID: 8143234275117781634}
   m_Layer: 0
   m_Name: Right2
   m_TagString: Untagged
@@ -5232,7 +5233,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8189438252459062760
+--- !u!114 &8143234275117781634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5255,7 +5256,7 @@ GameObject:
   - component: {fileID: 8226797428040369805}
   - component: {fileID: 660101107856370224}
   - component: {fileID: 8663072709977169631}
-  - component: {fileID: 6146085929647011685}
+  - component: {fileID: 7591273081262145145}
   m_Layer: 0
   m_Name: Left3
   m_TagString: Untagged
@@ -5328,7 +5329,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6146085929647011685
+--- !u!114 &7591273081262145145
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5351,7 +5352,7 @@ GameObject:
   - component: {fileID: 3825410462364210134}
   - component: {fileID: 5999657895305845628}
   - component: {fileID: 8516801624177818183}
-  - component: {fileID: 5518853742872282024}
+  - component: {fileID: 5669535255817327855}
   m_Layer: 0
   m_Name: Right1
   m_TagString: Untagged
@@ -5424,7 +5425,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5518853742872282024
+--- !u!114 &5669535255817327855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5532,6 +5533,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1be6c12e19c20fd4a8ddcf6a24eb6a72,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1be6c12e19c20fd4a8ddcf6a24eb6a72, type: 3}

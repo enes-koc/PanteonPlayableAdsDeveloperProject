@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -14,15 +15,18 @@ public class PlayerController : MonoBehaviour
     Animator playerAnimator;
     GameManager gameManager;
     MenuManager menuManager;
-    int failAttempt=0;
-    public Transform raceStartPosition {get;set;}
+    int failAttempt = 0;
+    public Transform raceStartPosition { get; set; }
     public event Action OnFinishRace;
+    Rigidbody rb;
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
         gameManager = GameManager.Instance;
-        menuManager=MenuManager.Instance;
+        menuManager = MenuManager.Instance;
         RaceManager.Instance?.AddRacer(this.gameObject);
+
     }
 
     void Update()
@@ -86,8 +90,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void GoSpawnPoint(){
-        transform.position=raceStartPosition.position;
+    public void GoSpawnPoint()
+    {
+        rb.velocity=Vector3.zero;
+        transform.position = raceStartPosition.position;
         failAttempt++;
         menuManager.SetFailAttempt(failAttempt);
     }
@@ -100,6 +106,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("FinishLine"))
         {
+            transform.DOMove(other.gameObject.transform.Find("PlayerFinishPosition").transform.position,4);
             OnFinishRace?.Invoke();
         }
     }

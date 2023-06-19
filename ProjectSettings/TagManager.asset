@@ -8,6 +8,8 @@ TagManager:
   - Opponent
   - Wall
   - FinishLine
+  - Obstacle
+  - Coin
   layers:
   - Default
   - TransparentFX
